@@ -1,0 +1,183 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="container mt-4">
+
+ <h2>Host Dashboard 🏠</h2>
+ <% if (currUser && currUser.role === "host") { %>
+  <a href="/listings/new" class="btn btn-danger mt-3">
+    ➕ Add New Listing
+  </a>
+<% } %>
+
+<div class="alert alert-success mt-3">
+    💰 Total Earnings:
+    <strong>₹<%= totalEarnings.toLocaleString("en-IN") %></strong>
+</div>
+
+<div class="row mt-3">
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>📅 Total Bookings</h5>
+                <h3><%= totalBookings %></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>✅ Confirmed</h5>
+                <h3><%= confirmedBookings %></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>⏳ Pending</h5>
+                <h3><%= pendingBookings %></h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+  <h4>My Listings</h4>
+
+  <% if (listings.length === 0) { %>
+
+    <p>You haven't created any listings yet.</p>
+
+  <% } else { %>
+
+    <div class="row">
+
+      <% for (let listing of listings) { %>
+
+        <div class="col-md-4 mb-4">
+
+          <div class="card">
+
+            <img
+              src="<%= listing.image.url %>"
+              class="card-img-top"
+              style="height: 200px; object-fit: cover;"
+            >
+
+            <div class="card-body">
+
+              <h5 class="card-title">
+                <%= listing.title %>
+              </h5>
+
+              <p>
+                📍 <%= listing.location %>
+              </p>
+
+              <p>
+                💰 ₹<%= listing.price.toLocaleString("en-IN") %> / night
+              </p>
+
+              <a
+                href="/listings/<%= listing._id %>"
+                class="btn btn-dark"
+              >
+                View Listing
+              </a>
+              <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-dark">
+    Edit
+</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  <% } %>
+<hr class="mt-5">
+
+<h4>Bookings Received 📅</h4>
+
+<% if (bookings.length === 0) { %>
+
+  <p>No bookings received yet.</p>
+
+<% } else { %>
+
+  <div class="row">
+
+    <% for (let booking of bookings) { %>
+
+      <div class="col-md-6 mb-4">
+
+        <div class="card">
+
+          <div class="card-body">
+
+            <h5 class="card-title">
+              <%= booking.listing.title %>
+            </h5>
+
+            <p class="card-text">
+              👤 Guest: <%= booking.user.username %>
+            </p>
+
+            <p class="card-text">
+              📅 Check-in:
+              <%= booking.checkIn.toLocaleDateString("en-IN") %>
+            </p>
+
+            <p class="card-text">
+              📅 Check-out:
+              <%= booking.checkOut.toLocaleDateString("en-IN") %>
+            </p>
+
+            <p class="card-text">
+              👥 Guests: <%= booking.guests %>
+            </p>
+
+            <p class="card-text">
+              💰 Total Price:
+            ₹<%= (booking.totalPrice || 0).toLocaleString("en-IN") %>
+            </p>
+            <p class="card-text">
+  Status:
+  <strong><%= booking.status %></strong>
+</p>
+
+<% if (booking.status === "Pending") { %>
+
+  <form action="/bookings/<%= booking._id %>/confirm" method="POST" style="display:inline;">
+    <button class="btn btn-success" type="submit">
+      Confirm
+    </button>
+  </form>
+
+  <form action="/bookings/<%= booking._id %>/reject" method="POST" style="display:inline;">
+    <button class="btn btn-danger" type="submit">
+      Reject
+    </button>
+  </form>
+
+<% } %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+<% } %>
+</div>

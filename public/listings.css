@@ -1,0 +1,39 @@
+/* Only for listings page */
+.listings-page {
+  padding: 30px;
+  font-family: Georgia, serif;
+}
+
+.listings-page h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.create-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #6aa84f;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.create-btn:hover {
+  background-color: #4e7d35;
+}
+
+.listings-page ul {
+  margin-top: 15px;
+}
+
+.listings-page li {
+  margin: 6px 0;
+}
+
+.listings-page a {
+  color: blue;
+  text-decoration: underline;
+  font-size: 18px;
+}
